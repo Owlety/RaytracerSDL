@@ -9,17 +9,13 @@ bool hit_sphere(const vec3& center, float radius, const ray& r) {
     float discriminant = b * b - 4 * a * c;
     return (discriminant > 0);
 }
-
+//work
 vec3 color(const ray& r) {
     if (hit_sphere(vec3(0.0,0.0,-1), 0.5, r)){
         return vec3(1,0,0);
     }
     vec3 unit_direction = unit_vector(r.direction());
-    /*std::cout << r.direction() << "\n";
-    std::cout << unit_direction << "\n";*/
     float t = 0.5 * (unit_direction.y() + 1.0);
-
-    //std::cout << t << ": " << (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0) <<"\n";
     return (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);
 }
 
