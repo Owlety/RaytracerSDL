@@ -11,15 +11,12 @@ bool hit_sphere(const vec3& center, float radius, const ray& r) {
 }
 
 vec3 color(const ray& r) {
-    if (hit_sphere(vec3(0.0,0.0,-1), 0.5, r)){
+    if (hit_sphere(vec3(0.0,0.0,-1), 0.2, r)){
         return vec3(1,0,0);
     }
+    //home
     vec3 unit_direction = unit_vector(r.direction());
-    /*std::cout << r.direction() << "\n";
-    std::cout << unit_direction << "\n";*/
     float t = 0.5 * (unit_direction.y() + 1.0);
-
-    //std::cout << t << ": " << (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0) <<"\n";
     return (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);
 }
 
@@ -51,7 +48,7 @@ int main(int argc, char* argv[])
                         ray r(origin, lower_left_corner + (float(x) / float(mx)) * horizontal + (float(y) / float(my)) * vertical);
                         vec3 col = color(r);
                     SDL_SetRenderDrawColor(renderer, int(col[0] * 255.99), int(col[1] * 255.99), int(col[2]* 255.99), SDL_ALPHA_OPAQUE);
-                    SDL_RenderDrawLine(renderer, x,y,x,y);
+                    SDL_RenderDrawLine(renderer, x,my-y,x,my-y);
                     }
                     
                 }
