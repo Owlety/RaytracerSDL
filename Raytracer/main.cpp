@@ -18,11 +18,20 @@ float hit_sphere(const vec3& center, float radius, const ray& r) {
     }
     else return (-b - sqrt(discriminant)) / (2.0 * a);
 }
-//work
+
+vec3 random_in_unit_sphere() {
+    vec3 p;
+    do {
+        p = 2.0 * vec3(static_cast <float> (rand()) / static_cast <float> (RAND_MAX), static_cast <float> (rand()) / static_cast <float> (RAND_MAX), static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) - vec3(1, 1, 1);
+    } while (p.squared_length() >= 1.0);
+    return p;
+}
+
 vec3 color(const ray& r, hitable *world) {
     hit_record rec;
-    if (world->hit(r, 0.0, FLT_MAX, rec)){
-        return 0.5 * vec3(rec.normal.x() + 1, rec.normal.y() + 1, rec.normal.z() + 1);
+    if (world->hit(r, 0.00001, FLT_MAX, rec)){
+        vec3 target = rec.p + rec.normal + random_in_unit_sphere();
+        return 0.5 * color(ray(rec.p, target - rec.p), world);
     }
     vec3 unit_direction = unit_vector(r.direction());
     float t = 0.5 * (unit_direction.y() + 1.0);
@@ -36,21 +45,23 @@ int main(int argc, char* argv[])
         SDL_Renderer* renderer = NULL;
         
         vec3 origin(0.0, 0.0, 0.0);
-        if (SDL_CreateWindowAndRenderer(256, 256, 0, &window, &renderer) == 0) {
+        if (SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer) == 0) {
             
             SDL_bool done = SDL_FALSE;
             int my = 0; 
             int mx = 0;
-            int ns = 10;
+            int ns = 3;
             SDL_GetRendererOutputSize(renderer, &mx, &my);
             vec3 horizontal(((float)mx/(float)my)*((float)mx/ (float)my), 0.0, 0.0);
             vec3 vertical(0.0, ((float)mx/ (float)my), 0.0);
             vec3 lower_left_corner(-((float)mx / (float)my) * ((float)mx / (float)my) /2, -((float)mx / (float)my)/2, -1.0);
-            hitable *list[2];
+            hitable *list[3];
             ////
             list[0] = new sphere(vec3(0, 0, -1), 0.3);
-            list[1] = new sphere(vec3(0, -3.29, -1), 3);
-            hitable* world = new hitable_list(list, 2);
+            list[1] = new sphere(vec3(0, -5.3, -1), 5);
+
+            list[2] = new sphere(vec3(0, 5.3, -1), 5);
+            hitable* world = new hitable_list(list, 3);
             camera cam(mx, my);
             while (!done) {
                 SDL_Event event;
@@ -71,6 +82,7 @@ int main(int argc, char* argv[])
                             col += color(r, world);
                         }
                         col /= ns;
+                        col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
                     SDL_SetRenderDrawColor(renderer, int(col[0] * 255.99), int(col[1] * 255.99), int(col[2]* 255.99), SDL_ALPHA_OPAQUE);
                     SDL_RenderDrawPoint(renderer, x, my - y);
                     }
