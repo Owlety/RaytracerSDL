@@ -144,7 +144,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hittable.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="hitable.h" />
+    <ClInclude Include="hitable_list.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="vec3.h" />
