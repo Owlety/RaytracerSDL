@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
                 SDL_Event event;
 
                 SDL_RenderClear(renderer);
-                
+                //
                 for (int y = 0; y < my; y++)
                 {
                     for (int x = 0; x < mx; x++ )
