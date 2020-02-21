@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
             vec3 vertical(0.0, ((float)mx/ (float)my), 0.0);
             vec3 lower_left_corner(-((float)mx / (float)my) * ((float)mx / (float)my) /2, -((float)mx / (float)my)/2, -1.0);
             hitable *list[2];
-            //
+            ////
             list[0] = new sphere(vec3(0, 0, -1), 0.3);
             list[1] = new sphere(vec3(0, -3.29, -1), 3);
             hitable* world = new hitable_list(list, 2);
