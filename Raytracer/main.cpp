@@ -45,12 +45,12 @@ int main(int argc, char* argv[])
         SDL_Renderer* renderer = NULL;
         
         vec3 origin(0.0, 0.0, 0.0);
-        if (SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer) == 0) {
+        if (SDL_CreateWindowAndRenderer(256, 256, 0, &window, &renderer) == 0) {
             
             SDL_bool done = SDL_FALSE;
             int my = 0; 
             int mx = 0;
-            int ns = 3;
+            int ns = 5;
             SDL_GetRendererOutputSize(renderer, &mx, &my);
             vec3 horizontal(((float)mx/(float)my)*((float)mx/ (float)my), 0.0, 0.0);
             vec3 vertical(0.0, ((float)mx/ (float)my), 0.0);
@@ -88,9 +88,8 @@ int main(int argc, char* argv[])
                     }
                 } 
                 SDL_RenderPresent(renderer);
-
                 while (SDL_PollEvent(&event)) {
-                    if (event.type == SDL_QUIT) {
+                    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
                         done = SDL_TRUE;
                     }
                 }
