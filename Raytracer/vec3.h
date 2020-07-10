@@ -1,4 +1,7 @@
-#pragma once
+#ifndef VEC3_H
+#define VEC3_H
+
+
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
@@ -6,7 +9,7 @@
 class vec3 {
 public:
 	float e[3];
-	vec3() {}
+	vec3(): e{ 0,0,0 } {}
 	vec3(float e0, float e1, float e2)
 	{
 		e[0] = e0;
@@ -42,6 +45,10 @@ public:
 	}
 	inline void make_unit_vector();
 };
+using point3 = vec3;
+using color = vec3;
+
+
 	inline std::istream& operator>>(std::istream& is, vec3& t) {
 		is >> t.e[0] >> t.e[1] >> t.e[2];
 		return is;
@@ -128,3 +135,5 @@ public:
 	inline vec3 unit_vector(vec3 v) {
 		return v / v.length();
 	}
+#endif // !VEC3_H
+	
